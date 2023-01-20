@@ -1,0 +1,101 @@
+---
+title: "STAC51 RMarkdown Tutorial"
+author: "Lehang Zhong"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+header-includes:
+- \usepackage{subfig}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+
+## Section 1
+
+Hello World
+  
+*Hello World*
+
+**Hello World**
+
+### S1 Subsection 1
+
+This is a math equation $a^2 + b^2 = c^2$
+
+Likelihood function of $Bin(n,\pi)$ : $\ell(\pi \mid y)=\left(\begin{array}{l}n \\ y\end{array}\right) \pi^{y}(1-\pi)^{n-y}$
+
+`$..$` is a inline math mode.
+
+This is a score CI:
+
+$$
+\begin{array}{c}
+\hat{\pi}\left(\frac{n}{n+z_{\alpha / 2}^{2}}\right)+\frac{1}{2}\left(\frac{z_{\alpha / 2}^{2}}{n+z_{\alpha / 2}^{2}}\right) \pm \\
+z_{\alpha / 2} \sqrt{\frac{1}{n+z_{\alpha / 2}^{2}}\left[\hat{\pi}(1-\hat{\pi}) \frac{n}{n+z_{\alpha / 2}^{2}}+\frac{1}{4}\left(\frac{z_{\alpha / 2}^{2}}{n+z_{\alpha / 2}^{2}}\right)\right]}
+\end{array}
+$$
+## Code chunks
+```{r chunk1}
+dbinom(0:5, 5, p=1/4)
+```
+
+### `echo = F`
+
+```{r,echo=F}
+dbinom(0:5, 5, p=1/4)
+```
+
+
+### `include = F`
+```{r,include=F}
+p1 <- dbinom(0:5, 5, p=1/4)
+```
+
+```{r eval=FALSE, include=FALSE}
+p1
+```
+
+## Code Chunks with figures
+
+```{r,echo=T}
+par(mfrow=c(2,2))
+plot(0:5, p1, type="h", xlab="y",
+     ylab="P(y)",col="red", lwd=2)
+plot(0:100, dbinom(0:100, 100, 1/4), type="h", xlab="y",
+     ylab="P(y)", col="red", lwd=2)
+pbinom(2, 5, 1/4)
+```
+
+## Simple way of attaching figure
+
+## More figure code chunk options
+```{r p31,echo=FALSE,fig.cap= "This is a figure caption.", out.width='0.95\\textwidth',fig.align='center'}
+plot(0:100, dbinom(0:100, 100, 1/4), type="h", xlab="y",
+     ylab="P(y)", col="red", lwd=2)
+```
+
+## Muliple figures with captions
+```{r, fig.cap='Combine multiple plots with subcaptions', fig.subcap=c('Ff1','Ff2','Ff3','Ff4'), fig.ncol = 2, out.width = "55%", fig.align = 'center'}
+plot(0:5, dbinom(0:5, 5, 1/4), type="h", xlab="y",
+     ylab="P(y)",col="red", lwd=2)
+plot(0:100, dbinom(0:100, 100, 1/4), type="h", xlab="y",
+     ylab="P(y)", col="red", lwd=2)
+plot(cars, pch = 19)
+boxplot(Sepal.Width ~ Species, data = iris)
+```
+
+## Tables
+
+```{r,out.width='0.5\\textwidth'}
+library(binom)
+knitr::kable(binom.confint(x=4, n=400, conf.level=.95, methods =c("ac","wilson", "lrt","exact")),
+             format="latex",digits=4,caption = 'Example from Lec3 page 10')
+```
+
+
+
